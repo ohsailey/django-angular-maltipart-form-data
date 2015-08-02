@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="lsomewhereApp">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.min.js"></script>
+<!-- <script type="text/javascript" src="/static/angular.min.js"></script> -->
+<script type="text/javascript" src="/static/angular-cookies.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="/static/scripts.js"></script>
+
+<script src="//tinymce.cachefly.net/4.1/tinymce.min.js"></script>
+<script src="/static/mentio.js"></script>
+<!-- <script src="/static/search.js"></script> -->
+<script src="/static/tinymce.js"></script>
+<body>
+{%verbatim%}
+
+<div id="wrapper" ng-controller="commentCtrl">
+    <form name="appointmentForm" class="form-horizontal" novalidate>
+        <div class="form-group">
+            <label for="inputMessage" class="col-sm-2 control-label">訊息</label>
+            <div class="col-sm-4">
+                <input type="text" name="message" class="form-control" id="inputMessage" placeholder="訊息" ng-model="comment.message" ng-class="{ 'ng-dirty': formStatus }" required />
+            </div>
+            <label for="inputTags" class="col-sm-2 control-label">標籤</label>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="inputTags" placeholder="標籤" ng-model="comment.tags" ng-class="{ 'ng-dirty': formStatus }" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputOwner" class="col-sm-2 control-label">對象</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="inputOwner" placeholder="對象" ng-model="comment.owner" ng-class="{ 'ng-dirty': formStatus }" required />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputmyPrivacy" class="col-sm-2 control-label">公開隱私</label>
+            <div class="col-sm-6">
+                <select class="form-control" ng-model="comment.privacy" ng-options="privacy.name for privacy in privacyLevel">
+                </select>
+            </div>
+        </div>
+
+         <div class="form-group">
+            <label for="inputPhoto" class="col-sm-2 control-label">新增照片</label>
+            <div class="col-sm-6">
+                <input type="file" file-model="comment.file"
+            </div>
+        </div>
+        <button id="btnSend" ng-click="submitForm(appointmentForm.$valid, $event)">發布</button>
+    
+    </form>
+
+   
+</div>
+
+<div ng-controller="mentio-demo-ctrl">
+    <div ng-view></div>
+
+    <script type="text/ng-template" id="examples.html">
+        <form action="#">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="form-group">
+                        <h3>Text Area:</h3>
+                        <textarea mentio
+                            mentio-items="simplePeople | filter:label:typedTerm"
+                            mentio-search="searchSimplePeople(term)"
+                            mentio-typed-term="typedTerm"
+
+                            class="editor form-control"
+                            mentio-id="'theTextArea'"
+                            ng-model="theTextArea2"
+                            ng-trim="false"
+                            rows="6">
+                        </textarea>
+                        <span class="caption small">Mentioned: {{typedTerm2}}</span>
+                   </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </script>
+
+        
+
+    <script type="text/ng-template" id="/people-mentions.tpl">
+        <ul class="list-group user-search">
+            <li mentio-menu-item="person" ng-repeat="person in items" class="list-group-item">
+                <img ng-src="{{person.imageUrl|angular}}" class="user-photo">
+                <span class="text-primary" ng-bind-html="person.name | mentioHighlight:typedTerm:'menu-highlighted' | unsafe"></span>
+                <em class="text-muted" ng-bind="person.bio | words:5"></em>
+            </li>
+        </ul>
+    </script>
+
+</div>
+
+
+{%endverbatim%}
+</body>
+</html>
